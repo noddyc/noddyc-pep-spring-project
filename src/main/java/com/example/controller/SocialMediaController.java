@@ -1,7 +1,10 @@
 package com.example.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +26,11 @@ public class SocialMediaController {
         this.accountService = accountService;
     }
     
-    @GetMapping(path = "/register")
-    public ResponseEntity<String> register(@RequestBody Account account){
-        Account registeredAccount = accountService.register(account);
-        return ResponseEntity.ok(registeredAccount);
+    @PostMapping(path = "/register")
+    public ResponseEntity<Account> register(@RequestBody Account account){
+        System.err.print("postmapping");
+        Optional<Account> registeredAccount = accountService.register(account);
+        return ResponseEntity.ok(null);
     }
 
 }
