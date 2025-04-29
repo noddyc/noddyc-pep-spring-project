@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Account;
 import com.example.service.AccountService;
+import com.example.service.MessageService;
+import com.example.entity.Message;
+import java.util.List;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -22,14 +25,16 @@ import com.example.service.AccountService;
 public class SocialMediaController {
 
     private final AccountService accountService;
+    private final MessageService messageService;
 
-    public SocialMediaController(AccountService accountService){
+    public SocialMediaController(AccountService accountService, MessageService messageService){
         this.accountService = accountService;
+        this.messageService = messageService;
     }
     
     @PostMapping(path = "/register")
     public ResponseEntity<Account> register(@RequestBody Account account){
-        System.err.print("postmapping");
+        System.err.print("postmapping register");
         Optional<Account> registeredAccount = accountService.register(account);
         if(registeredAccount.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -38,16 +43,34 @@ public class SocialMediaController {
         }
     }
 
-    @PostMapping(path = "/register")
-    public ResponseEntity<Account> register(@RequestBody Account account){
-        System.err.print("postmapping");
-        Optional<Account> registeredAccount = accountService.register(account);
-        if(registeredAccount.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    @PostMapping(path = "/login")
+    public ResponseEntity<Account> login(@RequestBody Account account){
+        System.err.print("postmapping login");
+        Optional<Account> loggedInAccount = accountService.login(account);
+        if(loggedInAccount.isEmpty()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }else{
-            return ResponseEntity.ok(registeredAccount.get());
+            return ResponseEntity.status(HttpStatus.OK).body(loggedInAccount.get());
         }
     }
+
+  
+    @PostMapping(path = "/messages")
+    public ResponseEntity<List<Message>> createNewMessage(@RequestBody Message message){
+        System.err.print("postmapping createNew Message");
+        messageService.createNewMessage(message);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+
+    @GetMapping(path = "/messages")
+    public ResponseEntity<List<Message>> getAllMessages(){
+        System.err.print("postmapping login");
+        List<Message> messages = messageService.getAllMessages();
+        return ResponseEntity.status(HttpStatus.OK).body(messages);
+    }
+
+
 
 
 }
