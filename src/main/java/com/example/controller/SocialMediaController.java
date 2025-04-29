@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,7 +73,25 @@ public class SocialMediaController {
         return ResponseEntity.status(HttpStatus.OK).body(messages);
     }
 
+    @GetMapping(path = "messages/{messageId}")
+    public ResponseEntity<Message> getMessageById(@PathVariable("messageId") String messageId) {
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessageById(messageId).get());
+    }
 
+    @DeleteMapping(path = "messages/{messageId}")
+    public ResponseEntity<Message> deleteMessageById(@PathVariable("messageId") String messageId){
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.deleteMessageById(messageId));
+    }
 
+    @PatchMapping(path = "message/{messageId}")
+    public ResponseEntity<Message> updateMessageById(@RequestBody Message message, String messageId){
+        Message updatedMessage = messageService.updateMessageById(message, messageId);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedMessage);
+    }
+
+    @GetMapping(path = "accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getMessageByAccountId(@PathVariable("accountId") String messageId){
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessageByAccountId(messageId));
+    }
 
 }

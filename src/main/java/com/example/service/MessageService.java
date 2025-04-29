@@ -8,4 +8,12 @@ public interface MessageService {
     Optional<Message> createNewMessage(Message message);
     
     List<Message> getAllMessages();
+
+    Optional<Message> getMessageById(String messageId);
+
+    Message deleteMessageById(String messageId);
+
+    Message updateMessageById(Message message, String messageId);
+
+    List<Message> getMessageByAccountId(String accountId);
 }
