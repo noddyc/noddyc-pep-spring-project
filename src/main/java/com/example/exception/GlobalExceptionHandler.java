@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ClientErrorException.class)
-    public ResponseEntity<Void> handleResourceNotFound(ClientErrorException ex){
+    public ResponseEntity<Void> handleClientError(ClientErrorException ex){
         return ResponseEntity.status(ex.getStatus()).body(null);
     }
 
     @ExceptionHandler(DuplicateAccountException.class)
-    public ResponseEntity<Void> handleResourceNotFound(DuplicateAccountException ex){
+    public ResponseEntity<Void> handleDuplicateAccountError(DuplicateAccountException ex){
+        return ResponseEntity.status(ex.getStatus()).body(null);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Void> handleUnauthorizedError(UnauthorizedException ex){
         return ResponseEntity.status(ex.getStatus()).body(null);
     }
     
+
     
 }

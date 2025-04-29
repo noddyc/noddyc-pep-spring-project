@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.entity.Account;
 import com.example.exception.ClientErrorException;
 import com.example.exception.DuplicateAccountException;
+import com.example.exception.UnauthorizedException;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -41,15 +42,15 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Optional<Account> login(Account account){
+    public Account login(Account account){
         Optional<Account> accountExisted = accountRepository.findByUsername(account.getUsername());
         if(accountExisted.isEmpty()){
-            return Optional.empty();
+            throw new UnauthorizedException("Account does not exist");
         }else{
-            if(accountExisted.get().getUsername().equals(account.getUsername()) && accountExisted.get().getPassword().equals(account.getPassword())){
-                return accountExisted;
+            if(accountExisted.get().getPassword().equals(account.getPassword())){
+                return accountExisted.get();
             }else{
-                return Optional.empty();
+                throw new UnauthorizedException("Account password does not match");
             }
         }
     }

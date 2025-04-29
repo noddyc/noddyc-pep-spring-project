@@ -37,54 +37,43 @@ public class SocialMediaController {
     
     @PostMapping(path = "/register")
     public ResponseEntity<Account> register(@RequestBody Account account){
-        System.err.println("kfefeef");
         return ResponseEntity.status(HttpStatus.OK).body(accountService.register(account));
     }
 
     @PostMapping(path = "/login")
     public ResponseEntity<Account> login(@RequestBody Account account){
-        System.err.print("postmapping login");
-        Optional<Account> loggedInAccount = accountService.login(account);
-        if(loggedInAccount.isEmpty()){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }else{
-            return ResponseEntity.status(HttpStatus.OK).body(loggedInAccount.get());
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.login(account));
     }
 
-  
     @PostMapping(path = "/messages")
-    public ResponseEntity<List<Message>> createNewMessage(@RequestBody Message message){
-        System.err.print("postmapping createNew Message");
-        messageService.createNewMessage(message);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message message){
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.createNewMessage(message));
     }
-
 
     @GetMapping(path = "/messages")
     public ResponseEntity<List<Message>> getAllMessages(){
-        System.err.print("postmapping login");
         List<Message> messages = messageService.getAllMessages();
         return ResponseEntity.status(HttpStatus.OK).body(messages);
     }
 
-    @GetMapping(path = "messages/{messageId}")
+    @GetMapping(path = "/messages/{messageId}")
     public ResponseEntity<Message> getMessageById(@PathVariable("messageId") String messageId) {
-        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessageById(messageId).get());
+        System.err.println(messageId);
+        return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessageById(messageId));
     }
 
-    @DeleteMapping(path = "messages/{messageId}")
-    public ResponseEntity<Message> deleteMessageById(@PathVariable("messageId") String messageId){
+    @DeleteMapping(path = "/messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessageById(@PathVariable("messageId") String messageId){
         return ResponseEntity.status(HttpStatus.OK).body(messageService.deleteMessageById(messageId));
     }
 
-    @PatchMapping(path = "message/{messageId}")
-    public ResponseEntity<Message> updateMessageById(@RequestBody Message message, String messageId){
-        Message updatedMessage = messageService.updateMessageById(message, messageId);
+    @PatchMapping(path = "/messages/{messageId}")
+    public ResponseEntity<Integer> updateMessageById(@RequestBody Message message, @PathVariable String messageId) {
+        Integer updatedMessage = messageService.updateMessageById(message, messageId);
         return ResponseEntity.status(HttpStatus.OK).body(updatedMessage);
     }
 
-    @GetMapping(path = "accounts/{accountId}/messages")
+    @GetMapping(path = "/accounts/{accountId}/messages")
     public ResponseEntity<List<Message>> getMessageByAccountId(@PathVariable("accountId") String messageId){
         return ResponseEntity.status(HttpStatus.OK).body(messageService.getMessageByAccountId(messageId));
     }

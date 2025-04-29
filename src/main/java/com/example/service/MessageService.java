@@ -5,15 +5,15 @@ import java.util.Optional;
 
 public interface MessageService {
 
-    Optional<Message> createNewMessage(Message message);
+    Message createNewMessage(Message message);
     
     List<Message> getAllMessages();
 
-    Optional<Message> getMessageById(String messageId);
+    Message getMessageById(String messageId);
 
-    Message deleteMessageById(String messageId);
+    Integer deleteMessageById(String messageId);
 
-    Message updateMessageById(Message message, String messageId);
+    Integer updateMessageById(Message message, String messageId);
 
     List<Message> getMessageByAccountId(String accountId);
 }
