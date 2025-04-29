@@ -45,37 +45,37 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public Optional<Message> getMessageById(int messageId) {
-        // Integer id;
-        // try{
-        //     id = Integer.parseInt(idParam);
-        // }catch (NumberFormatException e) {
-        //     return Optional.empty();
-        // }
+    public Optional<Message> getMessageById(String messageId) {
+        Integer id;
+        try{
+            id = Integer.parseInt(messageId);
+        }catch (NumberFormatException e) {
+            return Optional.empty();
+        }
 
-        return messageRepository.findById(messageId);
+        return messageRepository.findById(id);
     }
 
     @Override
-    public Message deleteMessageById(int messageId) {
-        // Integer id;
-        // try{
-        //     id = Integer.parseInt(idParam);
-        // }catch (NumberFormatException e) {
-        //     return Optional.empty();
-        // }
+    public Message deleteMessageById(String messageId) {
+        Integer id;
+        try{
+            id = Integer.parseInt(messageId);
+        }catch (NumberFormatException e) {
+            return null;
+        }
 
         Optional<Message> deletedMessage = getMessageById(messageId);
         if(deletedMessage.isEmpty()){
             return null;
         }else{
-            messageRepository.deleteById(messageId);
+            messageRepository.deleteById(id);
             return deletedMessage.get();
         }
     }
 
     @Override
-    public Message updateMessageById(Message message, int messageId) {
+    public Message updateMessageById(Message message, String messageId) {
                 //      Integer id;
         // try{
         //     id = Integer.parseInt(idParam);
@@ -103,14 +103,14 @@ public class MessageServiceImpl implements MessageService{
     }
 
     @Override
-    public List<Message> getMessageByAccountId(int accountId) {
-        //      Integer id;
-        // try{
-        //     id = Integer.parseInt(idParam);
-        // }catch (NumberFormatException e) {
-        //     return new ArrayList<>();
-        // }
-        return messageRepository.findAllByPostedBy(accountId);
+    public List<Message> getMessageByAccountId(String accountId) {
+        Integer id;
+        try{
+            id = Integer.parseInt(accountId);
+        }catch (NumberFormatException e) {
+            return new ArrayList<>();
+        }
+        return messageRepository.findAllByPostedBy(id);
     }
 
     
