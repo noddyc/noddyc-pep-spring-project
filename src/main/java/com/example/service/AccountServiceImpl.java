@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
 import com.example.exception.ClientErrorException;
-import com.example.exception.CustomException;
 import com.example.exception.DuplicateAccountException;
 
 @Service
