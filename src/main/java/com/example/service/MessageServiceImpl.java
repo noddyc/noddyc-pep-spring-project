@@ -53,25 +53,23 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public Message getMessageById(String messageId) {
-        Integer id;
         try{
-            id = Integer.parseInt(messageId);
+            int id = Integer.parseInt(messageId);
+            return messageRepository.findByMessageId(id).orElse(null);
         }catch (NumberFormatException e) {
             throw new ClientErrorException("Fail to retrieve a message by id");
         }
-        return messageRepository.findByMessageId(id).orElse(null);
     }
 
     @Override
     public Integer deleteMessageById(String messageId) {
 
         Message deletedMessage = getMessageById(messageId);
-        System.err.print(deletedMessage);
         if(deletedMessage == null){
             return null;
         }else{
             try{
-                Integer id = Integer.parseInt(messageId);
+                int id = Integer.parseInt(messageId);
 
                 int affectedRows = messageRepository.deleteMessageById(id);
 
@@ -114,13 +112,12 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     public List<Message> getMessageByAccountId(String accountId) {
-        Integer id;
         try{
-            id = Integer.parseInt(accountId);
+            int id = Integer.parseInt(accountId);
+            return messageRepository.findAllByPostedBy(id);
         }catch (NumberFormatException e) {
             throw new ClientErrorException("Fail to get message by account id");
         }
-        return messageRepository.findAllByPostedBy(id);
     }
 
     
