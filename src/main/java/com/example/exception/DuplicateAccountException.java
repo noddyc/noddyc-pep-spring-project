@@ -8,4 +8,5 @@ public class DuplicateAccountException extends CustomException{
         super(message);
         this.status = HttpStatus.CONFLICT;
     }
+
 }

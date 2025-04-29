@@ -11,5 +11,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Void> handleResourceNotFound(ClientErrorException ex){
         return ResponseEntity.status(ex.getStatus()).body(null);
     }
+
+    @ExceptionHandler(DuplicateAccountException.class)
+    public ResponseEntity<Void> handleResourceNotFound(DuplicateAccountException ex){
+        return ResponseEntity.status(ex.getStatus()).body(null);
+    }
+    
     
 }

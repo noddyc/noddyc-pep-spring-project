@@ -37,6 +37,7 @@ public class SocialMediaController {
     
     @PostMapping(path = "/register")
     public ResponseEntity<Account> register(@RequestBody Account account){
+        System.err.println("kfefeef");
         return ResponseEntity.status(HttpStatus.OK).body(accountService.register(account));
     }
 

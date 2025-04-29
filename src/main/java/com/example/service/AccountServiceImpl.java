@@ -21,10 +21,6 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account register(Account account) {
-        // if(true){
-        //     throw new CustomException("Username cannot be empty");
-        // }
-        // Simulate some validation or error
         if(account.getUsername() == null 
         || account.getUsername().isEmpty() 
         || account.getPassword().length() < 4){
@@ -39,6 +35,7 @@ public class AccountServiceImpl implements AccountService{
                 throw new ClientErrorException("User failed to register");
             }
         }else{
+            System.err.println("hrere");
             throw new DuplicateAccountException("Account already existed");
         }
     }
