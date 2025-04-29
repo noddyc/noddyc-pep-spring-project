@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepository;
