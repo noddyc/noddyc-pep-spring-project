@@ -33,17 +33,18 @@ public class AccountServiceImpl implements AccountService{
         || account.getUsername().isEmpty() 
         || account.getPassword().length() < 4){
             throw new ClientErrorException("Username cannot be blank and password is at least 4 characters long");
-        }
-        Optional<Account> accountExisted = accountRepository.findByUsername(account.getUsername());
-        
-        if(accountExisted.isEmpty()){
-            try{
-                return accountRepository.save(new Account(account.getUsername(), account.getPassword()));
-            }catch(Exception ex){
-                throw new ClientErrorException("User failed to register");
-            }
         }else{
-            throw new DuplicateAccountException("Account already existed");
+            Optional<Account> accountExisted = accountRepository.findByUsername(account.getUsername());
+        
+            if(accountExisted.isEmpty()){
+                try{
+                    return accountRepository.save(new Account(account.getUsername(), account.getPassword()));
+                }catch(Exception ex){
+                    throw new ClientErrorException("User failed to register");
+                }
+            }else{
+                throw new DuplicateAccountException("Account already existed");
+            }
         }
     }
 
