@@ -1,8 +1,10 @@
 package com.example.exception;
 
-public class ClientErrorException extends RuntimeException {
+import org.springframework.http.HttpStatus;
 
-    public CustomException(String message) {
+public class ClientErrorException extends CustomException {
+
+    public ClientErrorException(String message) {
         super(message);
     }
 }

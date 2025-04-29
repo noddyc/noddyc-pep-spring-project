@@ -37,13 +37,7 @@ public class SocialMediaController {
     
     @PostMapping(path = "/register")
     public ResponseEntity<Account> register(@RequestBody Account account){
-        System.err.print("postmapping register");
-        Optional<Account> registeredAccount = accountService.register(account);
-        if(registeredAccount.isEmpty()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }else{
-            return ResponseEntity.ok(registeredAccount.get());
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.register(account));
     }
 
     @PostMapping(path = "/login")

@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Account;
+import com.example.exception.ClientErrorException;
 import com.example.exception.CustomException;
+import com.example.exception.DuplicateAccountException;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -19,7 +21,7 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Optional<Account> register(Account account) {
+    public Account register(Account account) {
         // if(true){
         //     throw new CustomException("Username cannot be empty");
         // }
@@ -27,13 +29,18 @@ public class AccountServiceImpl implements AccountService{
         if(account.getUsername() == null 
         || account.getUsername().isEmpty() 
         || account.getPassword().length() < 4){
-            return Optional.empty();
+            throw new ClientErrorException("Username cannot be blank and password is at least 4 characters long");
         }
         Optional<Account> accountExisted = accountRepository.findByUsername(account.getUsername());
+        
         if(accountExisted.isEmpty()){
-            return Optional.of(accountRepository.save(new Account(account.getUsername(), account.getPassword())));
+            try{
+                return accountRepository.save(new Account(account.getUsername(), account.getPassword()));
+            }catch(Exception ex){
+                throw new ClientErrorException("User failed to register");
+            }
         }else{
-            return Optional.empty();
+            throw new DuplicateAccountException("Account already existed");
         }
     }
 
