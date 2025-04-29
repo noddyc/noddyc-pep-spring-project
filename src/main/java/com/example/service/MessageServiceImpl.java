@@ -5,14 +5,16 @@ import com.example.repository.MessageRepository;
 import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.exception.ClientErrorException;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+/**
+ * implementation of the service layer for message
+ */
 @Service
+@Transactional
 public class MessageServiceImpl implements MessageService{
 
     private final MessageRepository messageRepository;
@@ -64,15 +66,20 @@ public class MessageServiceImpl implements MessageService{
     public Integer deleteMessageById(String messageId) {
 
         Message deletedMessage = getMessageById(messageId);
-
+        System.err.print(deletedMessage);
         if(deletedMessage == null){
             return null;
         }else{
             try{
-                Integer id;
-                id = Integer.parseInt(messageId);
-                messageRepository.deleteById(id);
-                return 1;
+                Integer id = Integer.parseInt(messageId);
+
+                int affectedRows = messageRepository.deleteMessageById(id);
+
+                if(affectedRows <= 0){
+                    throw new ClientErrorException("Failed to delete a message by id");
+                }else{
+                    return affectedRows;
+                }
             }catch (Exception e){
                 throw new ClientErrorException("Fail to delete a message by id");
             }
@@ -87,14 +94,17 @@ public class MessageServiceImpl implements MessageService{
             throw new ClientErrorException("Fail to update message");
         }else{
             Message toBeUpdatedMessage = getMessageById(messageId);
-            
+
             if(toBeUpdatedMessage == null){
                 throw new ClientErrorException("Fail to update message");
             }else{
                 try{
-                    toBeUpdatedMessage.setMessageText(message.getMessageText());
-                    messageRepository.save(toBeUpdatedMessage);
-                    return 1;
+                    int affectedRows = messageRepository.updateMessageText(toBeUpdatedMessage.getMessageId(), message.getMessageText());
+                    if(affectedRows <= 0){
+                        throw new ClientErrorException("Fail to update message");
+                    }else{
+                        return affectedRows;
+                    }
                 }catch(Exception ex){
                     throw new ClientErrorException("Fail to update message");
                 }

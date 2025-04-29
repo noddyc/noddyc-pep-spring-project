@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.example.entity.Account;
 
+/**
+ * DAO layer to interact with Account table
+ */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer>{
 

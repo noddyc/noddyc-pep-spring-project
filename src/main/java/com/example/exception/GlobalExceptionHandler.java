@@ -4,6 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * Global exception handler
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -20,8 +23,5 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Void> handleUnauthorizedError(UnauthorizedException ex){
         return ResponseEntity.status(ex.getStatus()).body(null);
-    }
-    
-
-    
+    }    
 }

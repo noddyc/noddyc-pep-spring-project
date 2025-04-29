@@ -1,8 +1,10 @@
 package com.example.service;
 import com.example.entity.Message;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Service layer for message
+ */
 public interface MessageService {
 
     Message createNewMessage(Message message);
