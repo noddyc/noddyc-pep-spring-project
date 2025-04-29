@@ -19,15 +19,21 @@ public class AccountService{
     }
 
     public Optional<Account> register(Account account) {
-        if(true){
-            throw new CustomException("Username cannot be empty");
-        }
-
+        // if(true){
+        //     throw new CustomException("Username cannot be empty");
+        // }
         // Simulate some validation or error
-
-        
-        // Simulate successful registration
-        return Optional.empty();
+        if(account.getUsername() == null 
+        || account.getUsername().isEmpty() 
+        || account.getPassword().length() < 4){
+            return Optional.empty();
+        }
+        Optional<Account> acountExisted = accountRepository.findByUsername(account.getUsername());
+        if(acountExisted.isEmpty()){
+            return Optional.of(accountRepository.save(new Account(account.getUsername(), account.getPassword())));
+        }else{
+            return Optional.empty();
+        }
     }
 }
 

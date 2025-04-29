@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +31,23 @@ public class SocialMediaController {
     public ResponseEntity<Account> register(@RequestBody Account account){
         System.err.print("postmapping");
         Optional<Account> registeredAccount = accountService.register(account);
-        return ResponseEntity.ok(null);
+        if(registeredAccount.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }else{
+            return ResponseEntity.ok(registeredAccount.get());
+        }
     }
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<Account> register(@RequestBody Account account){
+        System.err.print("postmapping");
+        Optional<Account> registeredAccount = accountService.register(account);
+        if(registeredAccount.isEmpty()){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }else{
+            return ResponseEntity.ok(registeredAccount.get());
+        }
+    }
+
 
 }
